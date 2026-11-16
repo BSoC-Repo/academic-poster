@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing an Academic Research Poster</title>
+<!--
+  Referencing style used throughout: BFC Harvard (Cite Them Right).
+-->
+<style>
+:root{
+  /* B&FC palette: teal #62B19F (fills), text-safe teal #24695A, navy #1F3A4D */
+  --bg:#F3F5F6; --surface:#ffffff; --surface-2:#EDF2F3; --ink:#1C2B36; --muted:#475864;
+  --line:#C5D0D6; --accent:#24695A; --accent-ink:#ffffff; --accent-soft:#E7F3F0;
+  --navy:#1F3A4D; --teal:#62B19F; --heading:#1F3A4D;
+  --btn-bg:#62B19F; --btn-text:#1F3A4D; --btn-hover:#4E9C8A;
+  --good:#1B6535; --good-bg:#E6F4EA; --warn:#6B4E00; --warn-bg:#FFF5D6; --bad:#8A2E12; --bad-bg:#FCEBE4;
+  --focus:#1F3A4D; --radius:10px; --max:1080px;
+}
+:root{color-scheme:light}
+/* Dark tokens: used when the device prefers dark (unless the reader chose light) or when the reader chose dark */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    color-scheme:dark;
+    --bg:#111b22; --surface:#18252e; --surface-2:#20313c; --ink:#e8eef1; --muted:#b4c1c9;
+    --line:#3a4d59; --accent:#7fc7b6; --accent-ink:#10202a; --accent-soft:#1b3a36;
+    --heading:#e8eef1; --btn-hover:#7fc7b6;
+    --good:#7fd6a0; --good-bg:#17301f; --warn:#f2c078; --warn-bg:#36290f; --bad:#f5a19b; --bad-bg:#3a1b19;
+    --focus:#ffffff;
+  }
+}
+:root[data-theme=dark]{
+  color-scheme:dark;
+  --bg:#111b22; --surface:#18252e; --surface-2:#20313c; --ink:#e8eef1; --muted:#b4c1c9;
+  --line:#3a4d59; --accent:#7fc7b6; --accent-ink:#10202a; --accent-soft:#1b3a36;
+  --heading:#e8eef1; --btn-hover:#7fc7b6;
+  --good:#7fd6a0; --good-bg:#17301f; --warn:#f2c078; --warn-bg:#36290f; --bad:#f5a19b; --bad-bg:#3a1b19;
+  --focus:#ffffff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.0625rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+h1,h2,h3,h4{line-height:1.25;margin:0 0 .5em}
+h2,h3,h4{color:var(--heading)}
+h1{font-size:clamp(1.8rem,4.5vw,2.7rem)}
+h2{font-size:clamp(1.45rem,3vw,1.9rem);margin-top:0}
+h3{font-size:1.2rem;margin-top:1.6em}
+h4{font-size:1.02rem;margin-top:1em}
+p,ul,ol{margin:0 0 1em}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-999px;top:0;background:#fff;color:#1F3A4D;padding:.6rem 1rem;z-index:100}
+.skip:focus{left:0}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+header.hero{background:var(--navy);color:#fff;padding:2.2rem 0 1.8rem;border-bottom:6px solid var(--teal)}
+header.hero p{margin:0;max-width:60ch}
+header.hero .brand{display:block;height:96px;width:auto;margin:0 0 1rem}
+.meta{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0 0;padding:0;list-style:none}
+.meta li{border:1px solid currentColor;border-radius:999px;padding:.15rem .75rem;font-size:.92rem}
+nav.toc{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;align-items:center;gap:.5rem}
+nav.toc ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:.4rem 0;overflow-x:auto;flex:1;min-width:0}
+#themeBtn{flex:none;background:transparent;color:var(--ink);border:2px solid var(--accent);padding:.25rem .7rem;font-size:.9rem;white-space:nowrap}
+#themeBtn:hover{background:var(--accent-soft)}
+.no-js #themeBtn{display:none}
+nav.toc a{display:block;white-space:nowrap;padding:.4rem .5rem;border-radius:6px;text-decoration:none;color:var(--ink);font-size:.92rem}
+nav.toc a:hover{background:var(--surface-2)}
+main section{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(1rem,3vw,2rem);margin:1.5rem 0}
+.kicker{font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:0 0 .3rem}
+.note,.tip,.task{border-left:5px solid var(--accent);background:var(--accent-soft);padding:.8rem 1rem;border-radius:0 8px 8px 0;margin:1rem 0}
+.task{border-color:var(--warn);background:var(--warn-bg)}
+.note>:last-child,.tip>:last-child,.task>:last-child{margin-bottom:0}
+.grid2{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.tablewrap{overflow-x:auto;margin:0 0 1em}
+table{border-collapse:collapse;width:100%;min-width:520px}
+caption{text-align:left;font-weight:700;padding:.3rem 0}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+thead th{background:var(--surface-2)}
+tbody th{background:var(--surface-2);font-weight:600}
+button,.btn{font:inherit;cursor:pointer;border-radius:8px;border:2px solid var(--btn-bg);background:var(--btn-bg);color:var(--btn-text);padding:.5rem 1rem;font-weight:600}
+.btnrow button:hover{background:var(--btn-hover);border-color:var(--btn-hover)}
+button.secondary,.btnrow button.secondary:hover{background:transparent;color:var(--ink);border-color:var(--accent)}
+.btnrow button.secondary:hover{background:var(--accent-soft)}
+.btnrow{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Anatomy */
+.anatomy{display:grid;gap:1.25rem;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);align-items:start}
+@media (max-width:820px){.anatomy{grid-template-columns:1fr}}
+.poster{background:#fff;border:3px solid #1F3A4D;border-radius:6px;padding:8px;display:grid;gap:6px;
+  grid-template-columns:repeat(3,1fr);grid-template-rows:1.25fr .7fr repeat(5,1fr);aspect-ratio:1.414/1;min-height:420px;width:100%;
+  grid-template-areas:"title title title" "authors authors authors" "abstract method discuss" "intro method discuss" "intro findings refs" "aims findings refs" "aims findings ack"}
+.poster button{background:#EDF2F3;color:#1F3A4D;border:2px solid #7a8a94;border-radius:5px;padding:.25rem .3rem;font-size:clamp(.72rem,1.5vw,.95rem);
+  line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;text-align:center;hyphens:auto;overflow-wrap:anywhere;min-width:0}
+.poster button .n{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:#1F3A4D;color:#fff;font-size:.8em;font-weight:700}
+.poster button:hover{background:#cfe8e1}
+.poster button[aria-pressed="true"]{background:#24695A;color:#fff;border-color:#163f36}
+.poster button[aria-pressed="true"] .n{background:#fff;color:#24695A}
+.poster button[data-s=title]{grid-area:title;background:#1F3A4D;color:#fff;border-color:#1F3A4D;font-size:clamp(.9rem,2vw,1.2rem)}
+.poster button[data-s=title] .n{background:#fff;color:#1F3A4D}
+.poster button[data-s=title]:hover{background:#2c5068}
+.poster button[data-s=title][aria-pressed="true"]{background:#24695A}
+[data-s=authors]{grid-area:authors}[data-s=abstract]{grid-area:abstract}[data-s=intro]{grid-area:intro}[data-s=aims]{grid-area:aims}
+[data-s=method]{grid-area:method}[data-s=findings]{grid-area:findings}[data-s=discuss]{grid-area:discuss}[data-s=refs]{grid-area:refs}[data-s=ack]{grid-area:ack}
+.panel{border:1px solid var(--line);border-radius:8px;padding:1rem;background:var(--surface-2);margin-bottom:.8rem}
+.panel h3{margin-top:0}
+.panel dl{margin:0}
+.panel dt{font-weight:700;margin-top:.6rem}
+.panel dd{margin:0}
+.panel ul{margin:.2rem 0 0;padding-left:1.2rem}
+.js .panel[hidden]{display:none}
+
+/* Flow diagrams */
+.flows{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:1rem 0}
+.flows figure{margin:0;border:1px solid var(--line);border-radius:8px;padding:.7rem;background:var(--surface-2)}
+.flows svg{width:100%;height:auto;display:block;background:#fff;border:1px solid #7a8798;border-radius:4px}
+figcaption{font-size:.93rem;margin-top:.5rem}
+details{border:1px solid var(--line);border-radius:8px;margin:.7rem 0;background:var(--surface)}
+details>summary{cursor:pointer;padding:.8rem 1rem;font-weight:700;font-size:1.1rem}
+details[open]>summary{border-bottom:1px solid var(--line)}
+details>.body{padding:1rem}
+.swatches{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0}
+.swatches li{display:flex;align-items:center;gap:.4rem;border:1px solid var(--line);border-radius:6px;padding:.25rem .5rem;font-size:.9rem;background:var(--surface)}
+.swatches span.c{width:1.4rem;height:1.4rem;border-radius:4px;border:1px solid #0006;display:inline-block}
+.contrast{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));align-items:center;border:1px solid var(--line);border-radius:8px;padding:1rem;background:var(--surface-2)}
+.contrast label{display:flex;align-items:center;gap:.6rem;margin:.3rem 0}
+.contrast input[type=color]{width:3rem;height:2.2rem;padding:0;border:1px solid var(--line);background:none}
+#cSample{border:1px solid #0006;border-radius:6px;padding:1rem;font-size:1.15rem}
+#cSample strong{display:block;font-size:1.6rem}
+.badge{display:inline-block;border-radius:999px;padding:.05rem .6rem;font-size:.88rem;font-weight:700;border:1px solid currentColor}
+.badge.pass{color:var(--good);background:var(--good-bg)}
+.badge.fail{color:var(--bad);background:var(--bad-bg)}
+.badge.part{color:var(--warn);background:var(--warn-bg)}
+.ref{padding-left:2em;text-indent:-2em;margin:.3rem 0}
+.beforeafter>div{border:1px solid var(--line);border-radius:8px;padding:1rem;background:var(--surface-2)}
+.beforeafter h4{margin-top:0}
+
+/* Mock posters for evaluation */
+.mock{background:#fff;color:#222;border:2px solid #333;aspect-ratio:1.414/1;width:100%;padding:2.5%;display:flex;flex-direction:column;gap:2.5%;border-radius:4px;overflow:hidden}
+.mock .cols{flex:1;display:grid;gap:2.5%;min-height:0}
+.mock .col{display:flex;flex-direction:column;gap:5%;min-height:0}
+.mock .lines{flex:1;background:repeating-linear-gradient(to bottom,#666 0 2px,transparent 2px 7px);min-height:8px}
+.mock .lines.dense{background:repeating-linear-gradient(to bottom,#888 0 1.5px,transparent 1.5px 4px)}
+.mock .lines.short{flex:0 0 22%}
+.mock .hd{height:7px;width:55%;flex:none}
+.mockA .top{display:flex;align-items:center;gap:2%;flex:0 0 9%}
+.mockA .logo{width:9%;height:100%;border-radius:3px}
+.mockA .ttl{flex:1;display:flex;flex-direction:column;gap:3px;align-items:center}
+.mockA .ttl i{display:block;height:3px;background:#777;width:90%}
+.mockA .cols{grid-template-columns:1.6fr .8fr 1.3fr .9fr}
+.mockA .hd{background:#e6c84a;margin:0 auto}
+.mockA .pie{flex:0 0 22%;aspect-ratio:1;width:38%;margin:0 auto;border-radius:50%;background:conic-gradient(#d22 0 40%,#2a2 40% 75%,#d22 75% 85%,#2a2 85%)}
+.mockB .top{flex:0 0 17%;background:#12355b;border-radius:3px;display:flex;flex-direction:column;justify-content:center;gap:12%;padding:0 3%}
+.mockB .top i{display:block;height:22%;background:#fff;width:70%;border-radius:2px}
+.mockB .top i+i{height:8%;width:35%;background:#b9cfe6}
+.mockB .cols{grid-template-columns:1fr 1.25fr 1fr}
+.mockB .hd{background:#12355b;height:9px}
+.mockB .chart{flex:0 0 45%;border-left:2px solid #333;border-bottom:2px solid #333;display:flex;align-items:flex-end;gap:7%;padding:0 7%}
+.mockB .chart b{flex:1;background:#12355b}
+.mockB .chart b:nth-child(2){background:#e69f00}
+.mockB .cap{height:4px;width:70%;background:#666;flex:none}
+.mockB .call{flex:0 0 20%;background:#fbe9c6;border-left:5px solid #e69f00;border-radius:2px}
+.mockB .chart.small{flex:0 0 25%}
+.evalcard{border:1px solid var(--line);border-radius:8px;padding:1rem;background:var(--surface-2)}
+.evalcard h3{margin-top:0}
+fieldset{border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.5rem .8rem;background:var(--surface)}
+legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:.3rem}
+legend+*{clear:both}
+.opts{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem}
+.opts label{display:flex;align-items:center;gap:.35rem;padding:.2rem 0}
+input[type=radio],input[type=checkbox]{width:1.15rem;height:1.15rem;accent-color:var(--accent)}
+.fb{margin:.4rem 0 0;font-size:.96rem}
+.result{font-weight:700;margin:.6rem 0}
+
+/* Planner */
+.field{margin:1rem 0}
+.field label{display:block;font-weight:700}
+.field .hint{display:block;color:var(--muted);font-size:.93rem}
+textarea,input[type=text]{width:100%;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--muted);border-radius:8px;padding:.55rem .7rem;margin-top:.3rem}
+textarea{min-height:5.5rem;resize:vertical}
+.count{font-size:.93rem;margin-top:.2rem}
+.total{position:sticky;bottom:0;background:var(--surface);border:2px solid var(--accent);border-radius:8px;padding:.6rem 1rem;font-weight:700}
+.checklist{list-style:none;padding:0}
+.checklist label{display:flex;gap:.6rem;align-items:flex-start;padding:.3rem 0}
+.checklist input{margin-top:.25rem;flex:none}
+footer{padding:1.5rem 0 3rem;color:var(--muted);font-size:.93rem}
+@media print{
+  nav.toc,.btnrow,.skip,.contrast,header.hero .brand{display:none}
+  body{background:#fff;color:#000;font-size:11pt}
+  header.hero{background:none;color:#000;padding:0}
+  main section{border:none;padding:0;break-inside:auto}
+  .panel[hidden]{display:block!important}
+  details>.body{display:block}
+  .total{position:static}
+  textarea{border:1px solid #666;min-height:0}
+}
+</style>
+<script>
+/* Apply a saved light/dark choice before the page paints */
+try{var t=localStorage.getItem('posterTheme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="hero">
+  <div class="wrap">
+    <img class="brand" src="data:image/png;base64,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" alt="B&amp;FC Group" width="332" height="294">
+    <h1>Designing an Academic Research Poster</h1>
+    <p>An interactive guide to planning, structuring and designing a poster that communicates your research clearly, for use in the taught session and for independent study.</p>
+    <ul class="meta" aria-label="Resource details">
+      <li>Referencing: BFC Harvard (Cite Them Right)</li>
+      <li>About 60 to 90 minutes</li>
+    </ul>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap">
+    <ul>
+      <li><a href="#objectives">Objectives</a></li>
+      <li><a href="#intro">1 Introduction</a></li>
+      <li><a href="#anatomy">2 Anatomy</a></li>
+      <li><a href="#design">3 Design principles</a></li>
+      <li><a href="#writing">4 Writing</a></li>
+      <li><a href="#evaluate">5 Evaluate</a></li>
+      <li><a href="#planner">6 Plan yours</a></li>
+      <li><a href="#check">7 Check</a></li>
+      <li><a href="#refs">References</a></li>
+    </ul>
+    <button type="button" id="themeBtn">Dark mode</button>
+  </div>
+</nav>
+
+<main id="main" class="wrap">
+<noscript><p class="task"><strong>JavaScript is switched off.</strong> You can still read all of the guidance, but the clickable diagram, contrast checker, evaluation activity, planner word counts and quiz need JavaScript.</p></noscript>
+
+<section id="objectives" aria-labelledby="h-obj">
+  <p class="kicker">Before you start</p>
+  <h2 id="h-obj">Learning objectives</h2>
+  <p>By the end of this resource you will be able to:</p>
+  <ol>
+    <li><strong>Identify</strong> the purpose and typical audience of an academic research poster.</li>
+    <li><strong>Describe</strong> the standard structure of a research poster.</li>
+    <li><strong>Apply</strong> principles of visual hierarchy, layout, typography, colour and white space to a poster design.</li>
+    <li><strong>Evaluate</strong> example posters against a set of good-practice criteria.</li>
+    <li><strong>Plan</strong> the content of your own poster using a structured template.</li>
+  </ol>
+  <p class="note"><strong>How to use this page.</strong> Work through sections 1 to 5 in order, then use the planner in section 6 to draft your own poster content. Your planner notes are saved in this browser only, so download or print them before you switch device. Always check your module brief: where it differs from this general guidance, the brief takes priority.</p>
+</section>
+
+<section id="intro" aria-labelledby="h-intro">
+  <p class="kicker">Section 1</p>
+  <h2 id="h-intro">What is an academic poster?</h2>
+  <p>An academic poster is a single large sheet, usually A0 or A1, that summarises a piece of research visually. It is designed to be read by someone standing one to two metres away, in a few minutes, often while you stand beside it and talk them through the work. A good poster is a <strong>conversation starter</strong>, not a miniature dissertation.</p>
+  <div class="grid2">
+    <div>
+      <h3>Where posters are used</h3>
+      <ul>
+        <li><strong>Conferences:</strong> poster sessions let many researchers share work at once, and delegates browse and stop at what interests them.</li>
+        <li><strong>Assessment:</strong> many final-year projects are assessed partly through a poster and a short oral defence.</li>
+        <li><strong>Showcases:</strong> degree shows and employer events, where visitors may not be specialists in your topic.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Who is the audience?</h3>
+      <ul>
+        <li><strong>Passers-by</strong> decide in about five seconds, from the title alone, whether to stop.</li>
+        <li><strong>Interested non-specialists</strong> scan headings and figures for one or two minutes.</li>
+        <li><strong>Specialists and markers</strong> read closely and ask about method and limitations.</li>
+      </ul>
+      <p>Your design has to work for all three, in that order.</p>
+    </div>
+  </div>
+  <h3>How a poster differs from an essay or a slide presentation</h3>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Comparison of essay, slides and poster">
+  <table>
+    <thead><tr><th scope="col">Feature</th><th scope="col">Essay or report</th><th scope="col">Slide presentation</th><th scope="col">Research poster</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">How it is read</th><td>Start to finish, seated, at the reader's pace</td><td>One slide at a time, in an order the presenter controls</td><td>All at once, standing, in an order the viewer chooses</td></tr>
+      <tr><th scope="row">Typical length</th><td>Thousands of words</td><td>10 to 20 slides with a spoken script</td><td>Roughly 300 to 800 words on one sheet</td></tr>
+      <tr><th scope="row">Main carrier of meaning</th><td>Continuous prose and argument</td><td>The speaker, supported by visuals</td><td>Headings, figures and short text, supported by you</td></tr>
+      <tr><th scope="row">Attention</th><td>Assumed</td><td>Held by the presenter</td><td>Has to be earned in seconds</td></tr>
+      <tr><th scope="row">Depth</th><td>Full detail and evidence</td><td>Selected detail</td><td>Key message and the evidence for it</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="task"><strong>Think first.</strong> If a visitor remembered only one sentence from your poster, what should it be? Write it down now. You will use it in section 6.</div>
+</section>
+
+<section id="anatomy" aria-labelledby="h-anat">
+  <p class="kicker">Section 2</p>
+  <h2 id="h-anat">Poster anatomy</h2>
+  <p>Most research posters use the same ten parts. Select each part of the model poster to see its purpose, a recommended word count and the mistakes markers see most often. The numbers show the usual reading order in a three-column landscape layout.</p>
+  <div class="anatomy">
+    <div>
+      <div class="poster" role="group" aria-label="Model poster layout. Select a section to see guidance.">
+        <button type="button" data-s="title" aria-pressed="false" aria-controls="p-title"><span class="n">1</span>Title</button>
+        <button type="button" data-s="authors" aria-pressed="false" aria-controls="p-authors"><span class="n">2</span>Authors and affiliation</button>
+        <button type="button" data-s="abstract" aria-pressed="false" aria-controls="p-abstract"><span class="n">3</span>Abstract or summary</button>
+        <button type="button" data-s="intro" aria-pressed="false" aria-controls="p-intro"><span class="n">4</span>Introduction</button>
+        <button type="button" data-s="aims" aria-pressed="false" aria-controls="p-aims"><span class="n">5</span>Aims or research questions</button>
+        <button type="button" data-s="method" aria-pressed="false" aria-controls="p-method"><span class="n">6</span>Methodology</button>
+        <button type="button" data-s="findings" aria-pressed="false" aria-controls="p-findings"><span class="n">7</span>Findings</button>
+        <button type="button" data-s="discuss" aria-pressed="false" aria-controls="p-discuss"><span class="n">8</span>Discussion or conclusion</button>
+        <button type="button" data-s="refs" aria-pressed="false" aria-controls="p-refs"><span class="n">9</span>References</button>
+        <button type="button" data-s="ack" aria-pressed="false" aria-controls="p-ack"><span class="n">10</span>Acknowledge&shy;ments</button>
+      </div>
+      <p class="count" id="anatHint">Tip: use Tab to move between sections and Enter or Space to select one.</p>
+    </div>
+    <div id="panels" aria-live="polite">
+      <article class="panel" id="p-title" data-p="title"><h3>1. Title</h3><dl>
+        <dt>Purpose</dt><dd>Tells a passer-by what the project is about and why they should stop. It is the only part most people will read.</dd>
+        <dt>Recommended length</dt><dd>10 to 15 words at most, readable from about five metres.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>A long, jargon-heavy title copied from the report</li><li>ALL CAPITALS, which are slower to read</li><li>Text too small or squeezed between logos</li></ul></dd></dl></article>
+      <article class="panel" id="p-authors" data-p="authors"><h3>2. Authors and affiliation</h3><dl>
+        <dt>Purpose</dt><dd>Shows who did the work, where, and how to get in touch. Include your name, programme, institution, supervisor and a contact email or QR code.</dd>
+        <dt>Recommended length</dt><dd>Two or three short lines. Not counted in the word budget.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Leaving out the supervisor or the institution</li><li>Stretched, pixelated or oversized logos</li><li>No way for a visitor to follow up</li></ul></dd></dl></article>
+      <article class="panel" id="p-abstract" data-p="abstract"><h3>3. Abstract or summary</h3><dl>
+        <dt>Purpose</dt><dd>Gives the whole story in a few sentences: problem, approach, key finding, implication. Some briefs and conferences ask you to leave it out because the poster is itself a summary, so check.</dd>
+        <dt>Recommended length</dt><dd>50 to 100 words.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Pasting the 250-word abstract from the report</li><li>Repeating the introduction word for word</li><li>No finding stated</li></ul></dd></dl></article>
+      <article class="panel" id="p-intro" data-p="intro"><h3>4. Introduction</h3><dl>
+        <dt>Purpose</dt><dd>Sets out the context, the problem or gap, and why it matters, with two or three key citations.</dd>
+        <dt>Recommended length</dt><dd>80 to 120 words, ideally as three or four bullet points.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>A condensed literature review</li><li>No clear statement of the gap</li><li>A string of citations with no argument</li></ul></dd></dl></article>
+      <article class="panel" id="p-aims" data-p="aims"><h3>5. Aims or research questions</h3><dl>
+        <dt>Purpose</dt><dd>States exactly what the project set out to find or build. Everything in the findings should answer these.</dd>
+        <dt>Recommended length</dt><dd>30 to 50 words: one aim, or one to three numbered research questions.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Vague aims such as "to explore" with no object</li><li>Too many questions</li><li>Aims that the findings never return to</li></ul></dd></dl></article>
+      <article class="panel" id="p-method" data-p="method"><h3>6. Methodology</h3><dl>
+        <dt>Purpose</dt><dd>Explains what you did so the reader can judge how far to trust the findings: design, participants or data, tools, analysis and ethics. A flow diagram often does this better than text.</dd>
+        <dt>Recommended length</dt><dd>80 to 120 words, plus a diagram where it helps.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>A step-by-step diary of the project</li><li>No sample size or data source</li><li>No mention of ethical approval where people were involved</li></ul></dd></dl></article>
+      <article class="panel" id="p-findings" data-p="findings"><h3>7. Findings</h3><dl>
+        <dt>Purpose</dt><dd>Presents the evidence that answers your research questions. This is the heart of the poster and should take the most space, usually the centre.</dd>
+        <dt>Recommended length</dt><dd>100 to 150 words, plus two or three well-labelled figures.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Tables of raw data</li><li>Charts with no axis labels, units or caption</li><li>Reporting everything instead of selecting what answers the questions</li></ul></dd></dl></article>
+      <article class="panel" id="p-discuss" data-p="discuss"><h3>8. Discussion or conclusion</h3><dl>
+        <dt>Purpose</dt><dd>Says what the findings mean, how they relate to the literature, their limitations and what should happen next. End on a clear take-home message.</dd>
+        <dt>Recommended length</dt><dd>80 to 120 words.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Restating the findings without interpreting them</li><li>Claiming more than the evidence supports</li><li>No limitations</li></ul></dd></dl></article>
+      <article class="panel" id="p-refs" data-p="refs"><h3>9. References</h3><dl>
+        <dt>Purpose</dt><dd>Gives full details of every source cited on the poster, in BFC Harvard (Cite Them Right) style, so readers can find them.</dd>
+        <dt>Recommended length</dt><dd>Five to eight key sources. Not counted in the word budget. Text can be smaller than the body but should still be readable up close.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Inconsistent formatting</li><li>Sources cited in the text but missing from the list</li><li>Bare URLs instead of full references</li></ul></dd></dl></article>
+      <article class="panel" id="p-ack" data-p="ack"><h3>10. Acknowledgements</h3><dl>
+        <dt>Purpose</dt><dd>Thanks the people and organisations who made the work possible: supervisor, participants, industry partners, funders.</dd>
+        <dt>Recommended length</dt><dd>20 to 40 words.</dd>
+        <dt>Common mistakes</dt><dd><ul><li>Leaving it out altogether</li><li>Long personal thanks</li><li>Naming participants who were promised anonymity</li></ul></dd></dl></article>
+    </div>
+  </div>
+</section>
+
+<section id="design" aria-labelledby="h-des">
+  <p class="kicker">Section 3</p>
+  <h2 id="h-des">Design principles</h2>
+  <p>Design is not decoration. Each choice below either helps a viewer find and understand your key message or gets in the way. Open each heading in turn.</p>
+
+  <details open>
+    <summary>3.1 Visual hierarchy and reading flow</summary>
+    <div class="body">
+      <p><strong>Visual hierarchy</strong> is the order in which the eye notices things. Size, weight, colour and position signal importance, so the title should be the largest element, followed by section headings, key figures and then body text. Aim for three or four clear levels and use them consistently.</p>
+      <p><strong>Reading flow</strong> is the path a viewer follows. Make it obvious, and number your sections if there is any doubt.</p>
+      <div class="flows">
+        <figure>
+          <svg viewBox="0 0 141 100" role="img" aria-label="Column layout: three columns, read down each column from left to right."><g fill="#e9eef4" stroke="#7a8798"><rect x="6" y="6" width="129" height="14"/><rect x="6" y="26" width="39" height="68"/><rect x="51" y="26" width="39" height="68"/><rect x="96" y="26" width="39" height="68"/></g><g fill="none" stroke="#24695A" stroke-width="2.5"><path d="M25 32v54M70 32v54M115 32v54"/><path d="M19 80l6 7 6-7M64 80l6 7 6-7M109 80l6 7 6-7"/></g></svg>
+          <figcaption><strong>Columns.</strong> The safest choice. Three columns for landscape, two or three for portrait. Read down, then across.</figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 141 100" role="img" aria-label="Z pattern: the eye moves across the top, diagonally down to the bottom left, then across the bottom."><rect x="6" y="6" width="129" height="88" fill="#e9eef4" stroke="#7a8798"/><path d="M18 20h105L18 80h105" fill="none" stroke="#24695A" stroke-width="2.5"/><path d="M116 73l8 7-8 7" fill="none" stroke="#24695A" stroke-width="2.5"/></svg>
+          <figcaption><strong>Z pattern.</strong> For sparse, image-led layouts. Put the title top left, the key figure in the centre and the take-home message bottom right.</figcaption>
+        </figure>
+        <figure>
+          <svg viewBox="0 0 141 100" role="img" aria-label="F pattern: the eye scans across the top, then a shorter line lower down, then down the left edge."><rect x="6" y="6" width="129" height="88" fill="#e9eef4" stroke="#7a8798"/><path d="M18 20h105M18 45h70M18 20v66" fill="none" stroke="#24695A" stroke-width="2.5"/></svg>
+          <figcaption><strong>F pattern.</strong> How people scan text-heavy pages. They read the top and the left edge and skip the rest, so put key words at the start of headings and bullets.</figcaption>
+        </figure>
+      </div>
+      <p class="tip"><strong>Squint test.</strong> Step back from the screen and squint. You should still be able to see the title, where each section starts and which figure matters most.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>3.2 Typography</summary>
+    <div class="body">
+      <ul>
+        <li>Use a clean <strong>sans-serif</strong> family for most text, for example Arial, Calibri, Helvetica or Open Sans. They stay legible at a distance.</li>
+        <li>Use <strong>no more than two font families</strong>: one for headings and one for body, or a single family in different weights.</li>
+        <li>Left-align body text with a ragged right edge. Avoid full justification and centred paragraphs.</li>
+        <li>Use bold for emphasis. Avoid underlining, italics for long passages and blocks of capitals.</li>
+        <li>Keep lines to roughly 40 to 65 characters and line spacing at 1.2 to 1.5.</li>
+      </ul>
+      <div class="tablewrap" tabindex="0" role="region" aria-label="Recommended font sizes">
+      <table>
+        <caption>Recommended minimum and typical font sizes when designed at full size</caption>
+        <thead><tr><th scope="col">Element</th><th scope="col">A0 (841 × 1189 mm)</th><th scope="col">A1 (594 × 841 mm)</th><th scope="col">Should be readable from</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Title</th><td>85 to 120 pt</td><td>60 to 85 pt</td><td>About 5 m</td></tr>
+          <tr><th scope="row">Authors and affiliation</th><td>44 to 60 pt</td><td>32 to 44 pt</td><td>About 3 m</td></tr>
+          <tr><th scope="row">Section headings</th><td>44 to 60 pt</td><td>32 to 44 pt</td><td>2 to 3 m</td></tr>
+          <tr><th scope="row">Body text</th><td>24 pt minimum, 28 to 36 pt preferred</td><td>18 pt minimum, 20 to 26 pt preferred</td><td>1 to 1.5 m</td></tr>
+          <tr><th scope="row">Captions and references</th><td>18 to 24 pt</td><td>14 to 18 pt</td><td>Up close</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="note"><strong>Check your page size first.</strong> Set the slide or artboard to the real print size before you start. A1 is about 71% of A0 in each direction, so a poster designed at A1 and printed at A0 has every font size enlarged by about 141%. If your module provides a template, use its sizes.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>3.3 Colour</summary>
+    <div class="body">
+      <ul>
+        <li><strong>Limit the palette</strong> to two or three colours plus neutrals: one dominant colour, one accent for emphasis, and dark text on a light background.</li>
+        <li><strong>Contrast.</strong> The Web Content Accessibility Guidelines ask for a contrast ratio of at least <strong>4.5:1</strong> for normal text and <strong>3:1</strong> for large text and for meaningful parts of charts (World Wide Web Consortium, 2023). Aim for 7:1 for body text where you can.</li>
+        <li><strong>Colour-blind safe choices.</strong> About 1 in 12 men and 1 in 200 women have a colour vision deficiency. Avoid relying on red against green, and never use colour as the only signal: add labels, patterns or different marker shapes.</li>
+        <li>Avoid photographs or gradients behind text.</li>
+      </ul>
+      <h4>A colour-blind safe palette (Okabe and Ito, 2008)</h4>
+      <ul class="swatches">
+        <li><span class="c" style="background:#000000"></span>Black #000000</li>
+        <li><span class="c" style="background:#E69F00"></span>Orange #E69F00</li>
+        <li><span class="c" style="background:#56B4E9"></span>Sky blue #56B4E9</li>
+        <li><span class="c" style="background:#009E73"></span>Bluish green #009E73</li>
+        <li><span class="c" style="background:#F0E442"></span>Yellow #F0E442</li>
+        <li><span class="c" style="background:#0072B2"></span>Blue #0072B2</li>
+        <li><span class="c" style="background:#D55E00"></span>Vermilion #D55E00</li>
+        <li><span class="c" style="background:#CC79A7"></span>Reddish purple #CC79A7</li>
+      </ul>
+      <h4>Try it: contrast checker</h4>
+      <div class="contrast">
+        <div>
+          <label><input type="color" id="cText" value="#e6c84a"> Text colour</label>
+          <label><input type="color" id="cBg" value="#ffffff"> Background colour</label>
+          <p id="cOut" aria-live="polite" style="margin:.6rem 0 0"></p>
+        </div>
+        <div id="cSample"><strong>Section heading</strong>Body text on your chosen background.</div>
+      </div>
+    </div>
+  </details>
+
+  <details>
+    <summary>3.4 White space, alignment and grids</summary>
+    <div class="body">
+      <ul>
+        <li><strong>White space</strong> (empty space of any colour) separates sections and gives the eye somewhere to rest. As a rule of thumb, leave around 30 to 40% of the poster empty.</li>
+        <li>Build on a <strong>grid</strong>: equal column widths, equal gutters (about 20 to 30 mm at A0) and an outer margin of at least 25 mm so nothing is trimmed in printing.</li>
+        <li><strong>Align</strong> every text box and figure to the column edges. Switch on guides and snapping in PowerPoint, Canva, Figma or Illustrator.</li>
+        <li>Keep spacing consistent: the same gap above every heading and the same padding inside every box.</li>
+        <li>Prefer space to boxes and borders. Heavy outlines around every section add clutter.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>3.5 Figures, charts, tables and images</summary>
+    <div class="body">
+      <ul>
+        <li><strong>Resolution.</strong> Images need about 300 pixels per inch at printed size, and never less than 150. An image printed 20 cm wide needs roughly 2,400 pixels across. Screenshots and images copied from the web usually print blurred.</li>
+        <li><strong>Use vector formats</strong> (SVG, PDF, EMF) for charts, diagrams and logos so they stay sharp at any size.</li>
+        <li><strong>Choose the simplest chart</strong> that shows the point. Remove gridlines, 3D effects and legends where direct labels will do.</li>
+        <li><strong>Label everything:</strong> axis titles with units, readable tick labels (at least caption size) and data labels for key values.</li>
+        <li><strong>Number and caption</strong> every figure and table (Figure 1, Table 1) and refer to each one in the text. On a poster the caption should state the message, for example "Figure 2. Defect density fell by 31% after TDD was adopted".</li>
+        <li><strong>Tables:</strong> no more than about four columns and six rows. If it is bigger, turn it into a chart.</li>
+        <li><strong>Credit and permission.</strong> Cite the source of any image you did not create, and use only images you have the right to use.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>3.6 Referencing in BFC Harvard (Cite Them Right) on a poster</summary>
+    <div class="body">
+      <p>A poster is academic work, so the same rules of integrity apply as in a report. What changes is the quantity.</p>
+      <ul>
+        <li>Use <strong>author-date citations</strong> in the text, following Cite Them Right (Pears and Shields, 2022): (Okabe and Ito, 2008) or Okabe and Ito (2008). Write "and" in full, not "&amp;". Name up to three authors; for four or more use the first author followed by <em>et al.</em> Add a page number for a direct quotation: (Pears and Shields, 2022, p. 12).</li>
+        <li>Cite <strong>selectively</strong>: the five to eight sources that matter most. Every citation on the poster must appear in the reference list, and the list should contain nothing that is not cited.</li>
+        <li>Put the reference list in the bottom right, in alphabetical order by first author, with a hanging indent. It may be in smaller text than the body.</li>
+        <li>Cite sources for figures and data in the caption, for example "Adapted from Smith (2023)".</li>
+        <li>If you run out of space, ask your tutor whether a QR code linking to a fuller reference list is acceptable. Do not assume it is.</li>
+      </ul>
+      <h4>Patterns</h4>
+      <p class="ref"><strong>Journal article:</strong> Surname, Initial. and Surname, Initial. (Year) 'Title of article', <em>Title of Journal</em>, volume(issue), pp. page–page. Available at: https://doi.org/xxxx</p>
+      <p class="ref"><strong>Book:</strong> Surname, Initial. (Year) <em>Title of book</em>. Edition (if not the first). Place of publication: Publisher.</p>
+      <p class="ref"><strong>Web page:</strong> Surname, Initial. or Organisation (Year) <em>Title of web page</em>. Available at: https://xxxx (Accessed: Day Month Year).</p>
+      <p>See the <a href="#refs">reference list for this resource</a> for worked examples.</p>
+    </div>
+  </details>
+</section>
+
+<section id="writing" aria-labelledby="h-wri">
+  <p class="kicker">Section 4</p>
+  <h2 id="h-wri">Writing for posters</h2>
+  <p>Condensing months of research into a few hundred words is the hardest part of making a poster. The aim is not to shrink your report but to select from it.</p>
+  <div class="grid2">
+    <div>
+      <h3>Start from the key message</h3>
+      <ol>
+        <li>Write your <strong>key message</strong> in one sentence of 25 words or fewer.</li>
+        <li>List the <strong>three pieces of evidence</strong> a sceptical reader would need to believe it.</li>
+        <li>Choose <strong>one figure</strong> for each piece of evidence.</li>
+        <li>Add only the context and method needed to make sense of those figures.</li>
+        <li>Cut everything else and keep it for the conversation.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Techniques for cutting words</h3>
+      <ul>
+        <li>Use <strong>bullet points</strong> of one or two lines in place of paragraphs.</li>
+        <li>Write headings as <strong>findings</strong>: "TDD teams shipped fewer defects" says more than "Results".</li>
+        <li>Use the <strong>active voice</strong> and short sentences of under 20 words.</li>
+        <li>Replace descriptions with <strong>diagrams</strong>: a flowchart for method, a chart for results.</li>
+        <li>Remove filler ("it is important to note that"), hedging and repeated definitions.</li>
+        <li>Define essential abbreviations once and avoid the rest.</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Worked example</h3>
+  <p>This example is fictional and is used only to show the technique.</p>
+  <div class="grid2 beforeafter">
+    <div>
+      <h4>Before: taken from the report (86 words)</h4>
+      <p>In order to investigate the research question, a quasi-experimental study was undertaken in which a total of twelve second-year student teams were observed over the course of one twelve-week semester. Six of the teams were instructed to make use of test-driven development practices, whereas the remaining six teams continued to utilise their existing test-last approach. Defect data was subsequently collected from the issue trackers of each of the teams and was then normalised by the number of thousand lines of code in order to calculate defect density.</p>
+    </div>
+    <div>
+      <h4>After: on the poster (33 words)</h4>
+      <ul>
+        <li><strong>Design:</strong> quasi-experiment, 12 student teams, 12 weeks</li>
+        <li><strong>Groups:</strong> 6 teams used test-driven development (TDD), 6 used test-last</li>
+        <li><strong>Measure:</strong> defects per 1,000 lines of code, from issue trackers</li>
+      </ul>
+      <p style="margin-bottom:0">The same information, in under half the words, and it can be scanned in five seconds.</p>
+    </div>
+  </div>
+  <div class="tablewrap" tabindex="0" role="region" aria-label="Word budget">
+  <table>
+    <caption>A typical word budget for an A0 or A1 poster</caption>
+    <thead><tr><th scope="col">Section</th><th scope="col">Target words</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Title</th><td>Up to 15</td></tr>
+      <tr><th scope="row">Abstract or summary (if required)</th><td>50 to 100</td></tr>
+      <tr><th scope="row">Introduction</th><td>80 to 120</td></tr>
+      <tr><th scope="row">Aims or research questions</th><td>30 to 50</td></tr>
+      <tr><th scope="row">Methodology</th><td>80 to 120</td></tr>
+      <tr><th scope="row">Findings</th><td>100 to 150, plus figures</td></tr>
+      <tr><th scope="row">Discussion or conclusion</th><td>80 to 120</td></tr>
+      <tr><th scope="row">Acknowledgements</th><td>20 to 40</td></tr>
+      <tr><th scope="row">Total, excluding references</th><td>About 300 to 800</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="evaluate" aria-labelledby="h-eva">
+  <p class="kicker">Section 5</p>
+  <h2 id="h-eva">Evaluate two example posters</h2>
+  <p>Below are two schematic posters presenting the same fictional project. Grey lines stand for text. Rate each poster against the eight criteria, then compare your ratings with the tutor's. In the taught session, do this in pairs and be ready to justify one rating where you disagreed.</p>
+  <div class="grid2">
+    <div class="evalcard" id="evalA">
+      <h3>Poster A</h3>
+      <div class="mock mockA" aria-hidden="true">
+        <div class="top"><span class="logo" style="background:#c33"></span><span class="logo" style="background:#383"></span><div class="ttl"><i></i><i></i><i style="width:60%"></i></div><span class="logo" style="background:#339"></span></div>
+        <div class="cols">
+          <div class="col"><span class="hd"></span><span class="lines dense"></span><span class="hd"></span><span class="lines dense"></span></div>
+          <div class="col"><span class="hd"></span><span class="lines dense"></span></div>
+          <div class="col"><span class="hd"></span><span class="lines dense"></span><span class="pie"></span><span class="hd"></span><span class="lines dense"></span></div>
+          <div class="col"><span class="hd"></span><span class="lines dense"></span><span class="hd"></span><span class="lines dense short"></span><span class="hd"></span><span class="lines dense short"></span></div>
+        </div>
+      </div>
+      <p class="count"><strong>Description of Poster A.</strong> The title runs to three lines of small text, centred and squeezed between three logos. There are four columns of different widths, filled edge to edge with dense paragraphs in a small font and with almost no margins. Section headings are yellow on white and centred. The only figure is a small pie chart in red and green with no labels or caption. All ten standard sections are present, including a full reference list.</p>
+      <div class="rate"></div>
+    </div>
+    <div class="evalcard" id="evalB">
+      <h3>Poster B</h3>
+      <div class="mock mockB" aria-hidden="true">
+        <div class="top"><i></i><i></i></div>
+        <div class="cols">
+          <div class="col"><span class="hd"></span><span class="lines short"></span><span class="hd"></span><span class="lines short"></span><span class="hd"></span><span class="lines short"></span><span style="flex:1"></span></div>
+          <div class="col"><span class="hd"></span><span class="chart"><b style="height:85%"></b><b style="height:55%"></b><b style="height:70%"></b><b style="height:40%"></b></span><span class="cap"></span><span class="call"></span><span style="flex:1"></span></div>
+          <div class="col"><span class="hd"></span><span class="chart small"><b style="height:50%"></b><b style="height:80%"></b><b style="height:65%"></b></span><span class="hd"></span><span class="lines short"></span><span class="hd"></span><span class="lines short" style="flex-basis:14%"></span><span style="flex:1"></span></div>
+        </div>
+      </div>
+      <p class="count"><strong>Description of Poster B.</strong> A dark blue band across the top holds a large one-line title in white with the author line beneath. There are three equal columns with generous margins. Dark blue headings sit above short blocks of bullet points. A large bar chart in blue and orange dominates the centre column, with a caption and an orange call-out box stating the key finding. A second, smaller chart in the right-hand column has no caption or axis labels. All ten standard sections are present.</p>
+      <div class="rate"></div>
+    </div>
+  </div>
+  <div class="btnrow">
+    <button type="button" id="evalBtn">Compare with tutor ratings</button>
+    <button type="button" class="secondary" id="evalReset">Reset ratings</button>
+  </div>
+  <p id="evalMsg" class="result" role="status"></p>
+</section>
+
+<section id="planner" aria-labelledby="h-pla">
+  <p class="kicker">Section 6</p>
+  <h2 id="h-pla">Plan your own poster</h2>
+  <p>Draft the content of your poster here before you open any design software. Each box shows a live word count against its target. Your notes are stored in this browser on this device only.</p>
+  <form id="plan" novalidate>
+    <div id="planFields"></div>
+    <p class="total" id="planTotal" role="status">Total: 0 words (target 300 to 800, excluding references)</p>
+    <div class="btnrow">
+      <button type="button" id="planDownload">Download plan as text file</button>
+      <button type="button" class="secondary" id="planPrint">Print or save as PDF</button>
+      <button type="button" class="secondary" id="planClear">Clear plan</button>
+    </div>
+    <p id="planMsg" class="count" role="status"></p>
+  </form>
+</section>
+
+<section id="check" aria-labelledby="h-chk">
+  <p class="kicker">Section 7</p>
+  <h2 id="h-chk">Check your understanding</h2>
+  <p>Five quick questions. Feedback appears as soon as you choose an answer, and you can change your answer.</p>
+  <div id="quiz"></div>
+  <p id="quizScore" class="result" role="status"></p>
+
+  <h3>Final checklist before you print</h3>
+  <ul class="checklist">
+    <li><label><input type="checkbox"> The page is set to the required size and orientation, with margins of at least 25 mm.</label></li>
+    <li><label><input type="checkbox"> The title is 15 words or fewer and readable from five metres.</label></li>
+    <li><label><input type="checkbox"> My name, programme, institution and supervisor are shown.</label></li>
+    <li><label><input type="checkbox"> The reading order is obvious without explanation.</label></li>
+    <li><label><input type="checkbox"> Body text is at least 24 pt at A0 or 18 pt at A1.</label></li>
+    <li><label><input type="checkbox"> The total is under about 800 words, excluding references.</label></li>
+    <li><label><input type="checkbox"> I have used no more than three colours and two font families.</label></li>
+    <li><label><input type="checkbox"> All text meets a contrast ratio of 4.5:1 and no meaning depends on colour alone.</label></li>
+    <li><label><input type="checkbox"> Every figure is sharp at 100% zoom, numbered, labelled and captioned.</label></li>
+    <li><label><input type="checkbox"> Every citation appears in the reference list, in BFC Harvard (Cite Them Right) style.</label></li>
+    <li><label><input type="checkbox"> Someone else has proofread it, and I have exported to PDF and checked the PDF.</label></li>
+  </ul>
+</section>
+
+<section id="refs" aria-labelledby="h-ref">
+  <h2 id="h-ref">References</h2>
+  <p>These are the sources cited in this resource, formatted in BFC Harvard (Cite Them Right) style.</p>
+  <p class="ref">Okabe, M. and Ito, K. (2008) <em>Color universal design (CUD): how to make figures and presentations that are friendly to colorblind people</em>. Available at: https://jfly.uni-koeln.de/color/ (Accessed: 16 November 2026).</p>
+  <p class="ref">Pears, R. and Shields, G. (2022) <em>Cite them right: the essential referencing guide</em>. 12th edn. London: Bloomsbury Academic.</p>
+  <p class="ref">World Wide Web Consortium (2023) <em>Web content accessibility guidelines (WCAG) 2.2</em>. Available at: https://www.w3.org/TR/WCAG22/ (Accessed: 16 November 2026).</p>
+</section>
+</main>
+
+<footer><div class="wrap">Teaching resource: Designing an Academic Research Poster. The posters and study described in sections 4 and 5 are fictional examples. Font sizes and word counts are general guidance; your module brief takes priority.</div></footer>
+
+<script>
+(function(){
+'use strict';
+document.documentElement.className='js';
+var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function el(tag,attrs,text){var e=document.createElement(tag);if(attrs)for(var k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e}
+function words(t){return t.trim().split(/\s+/).filter(Boolean).length}
+
+/* ---------- Light / dark mode ---------- */
+var root=document.documentElement,themeBtn=$('#themeBtn'),mq=window.matchMedia?window.matchMedia('(prefers-color-scheme:dark)'):null;
+function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':!!(mq&&mq.matches)}
+function labelTheme(){themeBtn.textContent=isDark()?'Light mode':'Dark mode'}
+themeBtn.addEventListener('click',function(){
+  var next=isDark()?'light':'dark';root.setAttribute('data-theme',next);
+  try{localStorage.setItem('posterTheme',next)}catch(e){}
+  labelTheme();
+});
+if(mq&&mq.addEventListener)mq.addEventListener('change',labelTheme);
+labelTheme();
+var printTheme=null;
+window.addEventListener('beforeprint',function(){printTheme=root.getAttribute('data-theme');root.setAttribute('data-theme','light')});
+window.addEventListener('afterprint',function(){if(printTheme)root.setAttribute('data-theme',printTheme);else root.removeAttribute('data-theme')});
+
+/* ---------- 2. Anatomy ---------- */
+var aBtns=$$('.poster button'), panels=$$('#panels .panel');
+function showPanel(key){
+  panels.forEach(function(p){p.hidden=p.getAttribute('data-p')!==key});
+  aBtns.forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-s')===key))});
+}
+aBtns.forEach(function(b){b.addEventListener('click',function(){showPanel(b.getAttribute('data-s'))})});
+showPanel('title');
+window.addEventListener('beforeprint',function(){panels.forEach(function(p){p.hidden=false})});
+window.addEventListener('afterprint',function(){var cur=$('.poster button[aria-pressed="true"]');showPanel(cur?cur.getAttribute('data-s'):'title')});
+
+/* ---------- 3.3 Contrast checker ---------- */
+function lum(hex){
+  var c=[1,3,5].map(function(i){var v=parseInt(hex.substr(i,2),16)/255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)});
+  return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2];
+}
+var cText=$('#cText'),cBg=$('#cBg'),cOut=$('#cOut'),cSample=$('#cSample');
+function badge(ok,label){var s=el('span',{'class':'badge '+(ok?'pass':'fail')},(ok?'Pass: ':'Fail: ')+label);return s}
+function contrast(){
+  var a=lum(cText.value),b=lum(cBg.value),r=(Math.max(a,b)+0.05)/(Math.min(a,b)+0.05);
+  cSample.style.color=cText.value;cSample.style.background=cBg.value;
+  cOut.textContent='';
+  cOut.appendChild(el('strong',null,'Contrast ratio '+r.toFixed(2)+':1'));
+  cOut.appendChild(el('br'));
+  cOut.appendChild(badge(r>=4.5,'body text (4.5:1)'));cOut.appendChild(document.createTextNode(' '));
+  cOut.appendChild(badge(r>=3,'large text (3:1)'));cOut.appendChild(document.createTextNode(' '));
+  cOut.appendChild(badge(r>=7,'enhanced (7:1)'));
+}
+cText.addEventListener('input',contrast);cBg.addEventListener('input',contrast);contrast();
+
+/* ---------- 5. Evaluation ---------- */
+var LEVELS=['Met','Partly met','Not met'];
+var CRITERIA=[
+ 'The title is short, informative and readable from a distance',
+ 'The reading order is clear and logical',
+ 'Text and visuals are balanced, with a sensible word count',
+ 'Typography is legible and consistent',
+ 'Colour is limited, with accessible contrast',
+ 'White space and alignment are used well',
+ 'All expected sections are present, including references',
+ 'Figures are labelled, captioned and support the message'
+];
+var TUTOR={
+ A:[[2,'Three lines of small text between logos cannot be read from five metres.'],
+    [1,'The sections are in a conventional order, but unequal columns and no numbering make the path hard to follow.'],
+    [2,'It is almost entirely text. This is a report pasted onto a poster.'],
+    [2,'The body text is far too small and dense, and the headings are centred while the body is not.'],
+    [2,'Yellow on white has a contrast ratio of about 1.6:1, and the red and green pie excludes many colour-blind viewers.'],
+    [2,'Text runs edge to edge with no margins or gutters.'],
+    [0,'Everything required is there. A poster can be complete in content and still fail to communicate.'],
+    [2,'One small pie chart with no labels, caption or reference in the text.']],
+ B:[[0,'A one-line title in large white text on dark blue is readable across a room.'],
+    [0,'Three equal columns read down and across, with findings in the centre.'],
+    [0,'Short bullet blocks, a dominant chart and a call-out for the key finding.'],
+    [0,'One family, clear size levels and consistent headings.'],
+    [0,'Two colours plus neutrals. Blue and orange are distinguishable for most colour-blind viewers.'],
+    [0,'Generous margins, even gutters and everything aligned to the columns.'],
+    [0,'All ten sections are present.'],
+    [1,'The main chart is captioned, but the second chart has no caption or axis labels, so its point is unclear.']]
+};
+['A','B'].forEach(function(p){
+  var host=$('#eval'+p+' .rate');
+  CRITERIA.forEach(function(c,i){
+    var fs=el('fieldset'),opts=el('div',{'class':'opts'});
+    fs.appendChild(el('legend',null,(i+1)+'. '+c));
+    LEVELS.forEach(function(l,v){
+      var lab=el('label'),inp=el('input',{type:'radio',name:'ev'+p+i,value:String(v)});
+      lab.appendChild(inp);lab.appendChild(document.createTextNode(l));opts.appendChild(lab);
+    });
+    fs.appendChild(opts);fs.appendChild(el('p',{'class':'fb',hidden:''}));host.appendChild(fs);
+  });
+});
+$('#evalBtn').addEventListener('click',function(){
+  var missing=0,agree=0,total=0;
+  ['A','B'].forEach(function(p){CRITERIA.forEach(function(c,i){if(!$('input[name="ev'+p+i+'"]:checked'))missing++})});
+  var msg=$('#evalMsg');
+  if(missing){msg.textContent='Rate every criterion first. You have '+missing+' left to rate.';return}
+  ['A','B'].forEach(function(p){
+    $$('#eval'+p+' fieldset').forEach(function(fs,i){
+      var mine=+$('input:checked',fs).value,t=TUTOR[p][i],fb=$('.fb',fs),same=mine===t[0];
+      total++;if(same)agree++;
+      fb.hidden=false;fb.textContent='';
+      fb.appendChild(el('span',{'class':'badge '+(same?'pass':'part')},same?'You agree':'Different rating'));
+      fb.appendChild(document.createTextNode(' Tutor: '));
+      fb.appendChild(el('strong',null,LEVELS[t[0]]+'.'));
+      fb.appendChild(document.createTextNode(' '+t[1]));
+    });
+  });
+  msg.textContent='You matched the tutor on '+agree+' of '+total+' ratings. Where you differ, decide whether you can justify your rating with evidence from the poster.';
+});
+$('#evalReset').addEventListener('click',function(){
+  $$('#evaluate input[type=radio]').forEach(function(r){r.checked=false});
+  $$('#evaluate .fb').forEach(function(f){f.hidden=true;f.textContent=''});
+  $('#evalMsg').textContent='';
+});
+
+/* ---------- 6. Planner ---------- */
+var KEY='posterPlannerV1';
+var FIELDS=[
+ {id:'title',label:'Working title',hint:'What is the project about, in words a non-specialist would understand?',min:1,max:15,rows:2},
+ {id:'authors',label:'Authors and affiliation',hint:'Your name, programme, institution, supervisor and a contact email.',rows:2,skip:true},
+ {id:'message',label:'Key message',hint:'The one sentence a visitor should remember. Not printed on the poster as a section, but everything else should support it.',min:1,max:25,rows:2,skip:true},
+ {id:'abstract',label:'Abstract or summary',hint:'Problem, approach, key finding, implication. Leave blank if your brief does not require one.',min:50,max:100,optional:true},
+ {id:'intro',label:'Introduction',hint:'Context, the gap or problem, and why it matters. Note two or three key citations.',min:80,max:120},
+ {id:'aims',label:'Aims or research questions',hint:'One aim, or one to three numbered questions.',min:30,max:50},
+ {id:'method',label:'Methodology',hint:'Design, participants or data, tools, analysis, ethics. Could a diagram replace some of this?',min:80,max:120},
+ {id:'findings',label:'Findings',hint:'The results that answer your research questions, in order.',min:100,max:150},
+ {id:'figures',label:'Planned figures and tables',hint:'List two or three. For each, write the caption as the message it shows.',rows:3,skip:true},
+ {id:'discuss',label:'Discussion or conclusion',hint:'What it means, limitations, next steps and a take-home message.',min:80,max:120},
+ {id:'refs',label:'References (BFC Harvard, Cite Them Right)',hint:'Five to eight key sources. Not counted in the total.',rows:4,skip:true},
+ {id:'ack',label:'Acknowledgements',hint:'Supervisor, participants, partners, funders.',min:20,max:40}
+];
+var saved={};
+try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){saved={}}
+var host=$('#planFields');
+FIELDS.forEach(function(f){
+  var d=el('div',{'class':'field'}),lab=el('label',{'for':'pl-'+f.id},f.label);
+  var target=f.max?' Target: '+(f.min>1?f.min+' to '+f.max:'up to '+f.max)+' words.':'';
+  var hint=el('span',{'class':'hint',id:'pl-'+f.id+'-h'},f.hint+target);
+  var ta=el('textarea',{id:'pl-'+f.id,rows:String(f.rows||5),'aria-describedby':'pl-'+f.id+'-h pl-'+f.id+'-c'});
+  ta.value=saved[f.id]||'';
+  var c=el('div',{'class':'count',id:'pl-'+f.id+'-c'});
+  d.appendChild(lab);d.appendChild(hint);d.appendChild(ta);d.appendChild(c);host.appendChild(d);
+  f.ta=ta;f.c=c;ta.addEventListener('input',updatePlan);
+});
+function status(n,min,max){
+  if(n===0)return ['Not started',''];
+  if(n>max)return ['Over target by '+(n-max),'fail'];
+  if(n<min)return ['Under target by '+(min-n),'part'];
+  return ['Within target','pass'];
+}
+function updatePlan(){
+  var total=0,data={};
+  FIELDS.forEach(function(f){
+    var n=words(f.ta.value);data[f.id]=f.ta.value;
+    if(!f.skip)total+=n;
+    f.c.textContent='';
+    f.c.appendChild(document.createTextNode(n+(n===1?' word':' words')+' '));
+    if(f.max){var s=status(n,f.min,f.max);if(s[1])f.c.appendChild(el('span',{'class':'badge '+s[1]},s[0]));else f.c.appendChild(document.createTextNode('('+s[0].toLowerCase()+(f.optional?', optional':'')+')'))}
+  });
+  var t=$('#planTotal'),s=status(total,300,800);
+  t.textContent='Total: '+total+' words (target 300 to 800, excluding references). '+s[0]+'.';
+  try{localStorage.setItem(KEY,JSON.stringify(data))}catch(e){}
+}
+updatePlan();
+function planText(){
+  var out='POSTER PLAN\n===========\n\n';
+  FIELDS.forEach(function(f){out+=f.label.toUpperCase()+' ('+words(f.ta.value)+' words)\n'+(f.ta.value.trim()||'[not yet written]')+'\n\n'});
+  return out;
+}
+$('#planDownload').addEventListener('click',function(){
+  var url=URL.createObjectURL(new Blob([planText()],{type:'text/plain;charset=utf-8'}));
+  var a=el('a',{href:url,download:'poster-plan.txt'});document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url)},1000);
+  $('#planMsg').textContent='Plan downloaded as poster-plan.txt.';
+});
+$('#planPrint').addEventListener('click',function(){window.print()});
+$('#planClear').addEventListener('click',function(){
+  if(!window.confirm('Clear everything in your plan? This cannot be undone.'))return;
+  FIELDS.forEach(function(f){f.ta.value=''});updatePlan();
+  $('#planMsg').textContent='Plan cleared.';
+});
+
+/* ---------- 7. Quiz ---------- */
+var QUIZ=[
+ {q:'What is the main purpose of an academic research poster?',
+  o:['To present the full report on one page','To communicate a key message quickly and start a conversation','To replace the need for an oral explanation','To show how much work was done'],a:1,
+  f:'A poster selects from the research. It gives the key message and the evidence for it, and invites questions.'},
+ {q:'What is the minimum recommended size for body text on an A0 poster designed at full size?',
+  o:['12 pt','18 pt','24 pt','48 pt'],a:2,
+  f:'24 pt is the minimum at A0, with 28 to 36 pt preferred. At A1 the minimum is 18 pt.'},
+ {q:'What minimum contrast ratio should normal-sized text have against its background?',
+  o:['1.5:1','3:1','4.5:1','21:1'],a:2,
+  f:'WCAG asks for 4.5:1 for normal text and 3:1 for large text. 21:1 is the maximum possible: black on white.'},
+ {q:'Your findings section is a 200-word paragraph. Which change would improve it most?',
+  o:['Reduce the font size so it fits','Justify the text and add a border','Replace it with a labelled chart and a one-sentence takeaway','Move it to the bottom of the poster'],a:2,
+  f:'Findings should be shown, not described. A captioned figure plus the takeaway is quicker to read and more convincing.'},
+ {q:'Which statement about Harvard (Cite Them Right) referencing on a poster is correct?',
+  o:['Posters do not need references because space is limited','Every source cited on the poster appears in a short reference list','A list of URLs is enough','References should be the largest text so they are easy to check'],a:1,
+  f:'Use author-date citations for a small number of key sources, and give each one in full in the reference list.'}
+];
+var qHost=$('#quiz'),qState=[];
+QUIZ.forEach(function(q,i){
+  var fs=el('fieldset'),fb=el('p',{'class':'fb',role:'status'});
+  fs.appendChild(el('legend',null,(i+1)+'. '+q.q));
+  q.o.forEach(function(o,v){
+    var lab=el('label',{style:'display:flex;gap:.5rem;align-items:flex-start;padding:.25rem 0'}),inp=el('input',{type:'radio',name:'q'+i,value:String(v),style:'margin-top:.25rem;flex:none'});
+    inp.addEventListener('change',function(){
+      var ok=v===q.a;qState[i]=ok;fb.textContent='';
+      fb.appendChild(el('span',{'class':'badge '+(ok?'pass':'fail')},ok?'Correct':'Not quite'));
+      fb.appendChild(document.createTextNode(' '+(ok?q.f:'Have another look at the guidance and try again.')));
+      var done=qState.filter(function(x){return x!==undefined}).length,right=qState.filter(Boolean).length;
+      $('#quizScore').textContent=done===QUIZ.length?'Score: '+right+' out of '+QUIZ.length+'.':'';
+    });
+    lab.appendChild(inp);lab.appendChild(document.createTextNode(o));fs.appendChild(lab);
+  });
+  fs.appendChild(fb);qHost.appendChild(fs);
+});
+})();
+</script>
+</body>
+</html>
